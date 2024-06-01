@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'dart:io';
-import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as path;
 
-void main() => runApp(MyApp());
+void main() {
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   @override
@@ -35,22 +36,44 @@ class _MainScreenState extends State<MainScreen> {
         _results.add('');
       }
     });
-    // _writeResultToFile(index);
+    _saveResultToFile(index);
   }
 
-  Future<void> _writeResultToFile(int index) async {
-    final directory = await getApplicationDocumentsDirectory();
-    String desktopPath;
-    if (Platform.isWindows) {
-      desktopPath = path.join(directory.parent.path, 'Desktop');
-    } else if (Platform.isMacOS || Platform.isLinux) {
-      desktopPath = path.join(directory.parent.path, 'Desktop');
-    } else {
-      throw UnsupportedError('Unsupported platform');
+  Future<void> _saveResultToFile(int index) async {
+    try {
+      // Получение пути к директории документов
+      final directory = await getApplicationDocumentsDirectory();
+      final file = File(path.join(directory.path, 'results.txt'));
+
+      // Формирование строки результата
+      String resultString = 'Строка ${index + 1}: ${_checkControllers[index].text} - ${_results[index]}\n';
+
+      // Запись строки результата в файл
+      await file.writeAsString(resultString, mode: FileMode.append);
+
+      print('Файл сохранен по пути: ${file.path}');
+    } catch (e) {
+      print('Ошибка сохранения файла: $e');
     }
-    final file = File('$desktopPath/results.txt');
-    String resultString = 'Строка ${index + 1}: ${_checkControllers[index].text} - ${_results[index]}\n';
-    await file.writeAsString(resultString, mode: FileMode.append);
+  }
+
+  Future<Directory> getApplicationDocumentsDirectory() async {
+    // Определяем путь к домашней директории в зависимости от платформы
+    Directory directory;
+    if (Platform.isIOS || Platform.isMacOS) {
+      directory = Directory('/Users/${Platform.environment['USER']}/Documents');
+    } else if (Platform.isAndroid) {
+      directory = Directory('/storage/emulated/0/Documents');
+    } else {
+      throw UnsupportedError('Платформа не поддерживается');
+    }
+
+    // Создаем директорию, если она не существует
+    if (!await directory.exists()) {
+      await directory.create(recursive: true);
+    }
+
+    return directory;
   }
 
   @override
