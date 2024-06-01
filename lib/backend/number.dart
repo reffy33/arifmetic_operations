@@ -69,8 +69,8 @@ class Number {
     }
   }
 
-  Number sum(Number num1, Number num2, int targetBase) {
-    String x = num1.binary;
+  Number sum(Number num2, int targetBase) {
+    String x = binary;
     String y = num2.binary;
     String result;
 
@@ -110,8 +110,8 @@ class Number {
     return result;
   }
 
-  Number subtract(Number num1, Number num2, int targetBase) {
-    String x = num1.binary;
+  Number subtract(Number num2, int targetBase) {
+    String x = binary;
     String y = num2.binary;
     String result;
 
@@ -157,8 +157,8 @@ class Number {
     return result;
   }
 
-  Number multiply(Number num1, Number num2, int targetBase) {
-    String x = num1.binary;
+  Number multiply(Number num2, int targetBase) {
+    String x = binary;
     String y = num2.binary;
 
     String result = '0';
@@ -178,8 +178,8 @@ class Number {
     return Number(result, 2).convert(targetBase);
   }
 
-  Number divide(Number num1, Number num2, int targetBase) {
-    String x = num1.binary;
+  Number divide(Number num2, int targetBase) {
+    String x = binary;
     String y = num2.binary;
 
     if (y == '0') {

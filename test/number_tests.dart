@@ -53,7 +53,7 @@ void main() {
     test('', () {
       Number num1 = Number('101', 2);
       Number num2 = Number('110', 2);
-      Number result = num1.sum(num1, num2, 10);
+      Number result = num1.sum(num2, 10);
       expect(result.value, '11');
       expect(result.base, 10);
     });
@@ -61,7 +61,7 @@ void main() {
     test('', () {
       Number num1 = Number('15', 10);
       Number num2 = Number('30', 10);
-      Number result = num1.sum(num1, num2, 16);
+      Number result = num1.sum(num2, 16);
       expect(result.value, '2D');
       expect(result.base, 16);
     });
@@ -69,7 +69,7 @@ void main() {
     test('', () {
       Number num1 = Number('12', 8);
       Number num2 = Number('7', 8);
-      Number result = num1.sum(num1, num2, 2);
+      Number result = num1.sum(num2, 2);
       expect(result.value, '10001');
       expect(result.base, 2);
     });
@@ -77,7 +77,7 @@ void main() {
     test('', () {
       Number num1 = Number('A', 16);
       Number num2 = Number('B', 16);
-      Number result = num1.sum(num1, num2, 10);
+      Number result = num1.sum(num2, 10);
       expect(result.value, '21');
       expect(result.base, 10);
     });
@@ -85,7 +85,7 @@ void main() {
     test('', () {
       Number num1 = Number('8', 10);
       Number num2 = Number('9', 10);
-      Number result = num1.sum(num1, num2, 8);
+      Number result = num1.sum(num2, 8);
       expect(result.value, '21');
       expect(result.base, 8);
     });
@@ -93,7 +93,7 @@ void main() {
     test('', () {
       Number num1 = Number('1111', 2);
       Number num2 = Number('1', 2);
-      Number result = num1.sum(num1, num2, 16);
+      Number result = num1.sum(num2, 16);
       expect(result.value, '10');
       expect(result.base, 16);
     });
@@ -101,7 +101,7 @@ void main() {
     test('', () {
       Number num1 = Number('11101', 2);
       Number num2 = Number('56', 16);
-      Number result = num1.sum(num1, num2, 10);
+      Number result = num1.sum(num2, 10);
       expect(result.value, '115');
       expect(result.base, 10);
     });
@@ -111,7 +111,7 @@ void main() {
     test('', () {
       Number num1 = Number('110', 2);
       Number num2 = Number('101', 2);
-      Number result = num1.subtract(num1, num2, 10);
+      Number result = num1.subtract(num2, 10);
       expect(result.value, '1');
       expect(result.base, 10);
     });
@@ -119,7 +119,7 @@ void main() {
     test('', () {
       Number num1 = Number('30', 10);
       Number num2 = Number('15', 10);
-      Number result = num1.subtract(num1, num2, 16);
+      Number result = num1.subtract(num2, 16);
       expect(result.value, 'F');
       expect(result.base, 16);
     });
@@ -127,7 +127,7 @@ void main() {
     test('', () {
       Number num1 = Number('12', 8);
       Number num2 = Number('7', 8);
-      Number result = num1.subtract(num1, num2, 2);
+      Number result = num1.subtract(num2, 2);
       expect(result.value, '101');
       expect(result.base, 2);
     });
@@ -135,7 +135,7 @@ void main() {
     test('', () {
       Number num1 = Number('B', 16);
       Number num2 = Number('A', 16);
-      Number result = num1.subtract(num1, num2, 10);
+      Number result = num1.subtract(num2, 10);
       expect(result.value, '1');
       expect(result.base, 10);
     });
@@ -143,7 +143,7 @@ void main() {
     test('', () {
       Number num1 = Number('9', 10);
       Number num2 = Number('8', 10);
-      Number result = num1.subtract(num1, num2, 8);
+      Number result = num1.subtract(num2, 8);
       expect(result.value, '1');
       expect(result.base, 8);
     });
@@ -151,7 +151,7 @@ void main() {
     test('', () {
       Number num1 = Number('1111', 2);
       Number num2 = Number('1', 2);
-      Number result = num1.subtract(num1, num2, 16);
+      Number result = num1.subtract(num2, 16);
       expect(result.value, 'E');
       expect(result.base, 16);
     });
@@ -161,7 +161,7 @@ void main() {
     test('', () {
       Number num1 = Number('101', 2);
       Number num2 = Number('110', 2);
-      Number result = num1.multiply(num1, num2, 10);
+      Number result = num1.multiply(num2, 10);
       expect(result.value, '30');
       expect(result.base, 10);
     });
@@ -169,7 +169,7 @@ void main() {
     test('', () {
       Number num1 = Number('15', 10);
       Number num2 = Number('2', 10);
-      Number result = num1.multiply(num1, num2, 16);
+      Number result = num1.multiply(num2, 16);
       expect(result.value, '1E');
       expect(result.base, 16);
     });
@@ -177,7 +177,7 @@ void main() {
     test('', () {
       Number num1 = Number('12', 8);
       Number num2 = Number('7', 8);
-      Number result = num1.multiply(num1, num2, 2);
+      Number result = num1.multiply(num2, 2);
       expect(result.value, '110110');
       expect(result.base, 2);
     });
@@ -185,7 +185,7 @@ void main() {
     test('', () {
       Number num1 = Number('A', 16);
       Number num2 = Number('B', 16);
-      Number result = num1.multiply(num1, num2, 10);
+      Number result = num1.multiply(num2, 10);
       expect(result.value, '110');
       expect(result.base, 10);
     });
@@ -193,7 +193,7 @@ void main() {
     test('', () {
       Number num1 = Number('8', 10);
       Number num2 = Number('9', 10);
-      Number result = num1.multiply(num1, num2, 8);
+      Number result = num1.multiply(num2, 8);
       expect(result.value, '110');
       expect(result.base, 8);
     });
@@ -201,7 +201,7 @@ void main() {
     test('', () {
       Number num1 = Number('1111', 2);
       Number num2 = Number('10', 2);
-      Number result = num1.multiply(num1, num2, 16);
+      Number result = num1.multiply(num2, 16);
       expect(result.value, '1E');
       expect(result.base, 16);
     });
@@ -211,7 +211,7 @@ void main() {
     test('', () {
       Number num1 = Number('110', 2);
       Number num2 = Number('10', 2);
-      Number result = num1.divide(num1, num2, 10);
+      Number result = num1.divide(num2, 10);
       expect(result.value, '3');
       expect(result.base, 10);
     });
@@ -219,7 +219,7 @@ void main() {
     test('', () {
       Number num1 = Number('30', 10);
       Number num2 = Number('15', 10);
-      Number result = num1.divide(num1, num2, 16);
+      Number result = num1.divide(num2, 16);
       expect(result.value, '2');
       expect(result.base, 16);
     });
@@ -227,7 +227,7 @@ void main() {
     test('', () {
       Number num1 = Number('12', 8);
       Number num2 = Number('2', 8);
-      Number result = num1.divide(num1, num2, 2);
+      Number result = num1.divide(num2, 2);
       expect(result.value, '101');
       expect(result.base, 2);
     });
@@ -235,7 +235,7 @@ void main() {
     test('', () {
       Number num1 = Number('B', 16);
       Number num2 = Number('A', 16);
-      Number result = num1.divide(num1, num2, 10);
+      Number result = num1.divide(num2, 10);
       expect(result.value, '1');
       expect(result.base, 10);
     });
@@ -243,7 +243,7 @@ void main() {
     test('', () {
       Number num1 = Number('18', 10);
       Number num2 = Number('3', 10);
-      Number result = num1.divide(num1, num2, 8);
+      Number result = num1.divide(num2, 8);
       expect(result.value, '6');
       expect(result.base, 8);
     });
@@ -251,7 +251,7 @@ void main() {
     test('', () {
       Number num1 = Number('1110', 2);
       Number num2 = Number('10', 2);
-      Number result = num1.divide(num1, num2, 16);
+      Number result = num1.divide(num2, 16);
       expect(result.value, '7');
       expect(result.base, 16);
     });
