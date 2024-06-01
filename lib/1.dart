@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:path/path.dart' as path;
+import 'package:path_provider/path_provider.dart';
 
 void main() {
   runApp(MyApp());
@@ -24,12 +25,16 @@ class _MainScreenState extends State<MainScreen> {
   final TextEditingController _fioController = TextEditingController();
   final TextEditingController _textController = TextEditingController();
   final List<String> _strings = ['Строка 1'];
-  final List<TextEditingController> _checkControllers = [TextEditingController()];
+  final List<TextEditingController> _checkControllers = [
+    TextEditingController()
+  ];
   final List<String> _results = [''];
 
   void _checkInput(int index) {
     setState(() {
-      _results[index] = _checkControllers[index].text == _strings[index] ? 'Правильно' : 'Неправильно';
+      _results[index] = _checkControllers[index].text == _strings[index]
+          ? 'Правильно'
+          : 'Неправильно';
       if (index == _strings.length - 1) {
         _strings.add('Строка ${_strings.length + 1}');
         _checkControllers.add(TextEditingController());
@@ -42,11 +47,12 @@ class _MainScreenState extends State<MainScreen> {
   Future<void> _saveResultToFile(int index) async {
     try {
       // Получение пути к директории документов
-      final directory = await getApplicationDocumentsDirectory();
+      final directory = await getApplicationDocumentsDirectory1();
       final file = File(path.join(directory.path, 'results.txt'));
 
       // Формирование строки результата
-      String resultString = 'Строка ${index + 1}: ${_checkControllers[index].text} - ${_results[index]}\n';
+      String resultString =
+          'Строка ${index + 1}: ${_checkControllers[index].text} - ${_results[index]}\n';
 
       // Запись строки результата в файл
       await file.writeAsString(resultString, mode: FileMode.append);
@@ -57,13 +63,17 @@ class _MainScreenState extends State<MainScreen> {
     }
   }
 
-  Future<Directory> getApplicationDocumentsDirectory() async {
+  Future<Directory> getApplicationDocumentsDirectory1() async {
     // Определяем путь к домашней директории в зависимости от платформы
     Directory directory;
     if (Platform.isIOS || Platform.isMacOS) {
       directory = Directory('/Users/${Platform.environment['USER']}/Documents');
     } else if (Platform.isAndroid) {
       directory = Directory('/storage/emulated/0/Documents');
+    } else if (Platform.isWindows) {
+      directory = await getApplicationDocumentsDirectory();
+      String desktopPath = path.join(directory.parent.path, 'Desktop');
+      directory = Directory(desktopPath);
     } else {
       throw UnsupportedError('Платформа не поддерживается');
     }
