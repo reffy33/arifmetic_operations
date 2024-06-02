@@ -128,7 +128,7 @@ void main() {
       Number num1 = Number('12', 8);
       Number num2 = Number('7', 8);
       Number result = num1.subtract(num2, 2);
-      expect(result.value, '101');
+      expect(result.value, '11');
       expect(result.base, 2);
     });
 
@@ -178,7 +178,7 @@ void main() {
       Number num1 = Number('12', 8);
       Number num2 = Number('7', 8);
       Number result = num1.multiply(num2, 2);
-      expect(result.value, '110110');
+      expect(result.value, '1000110');
       expect(result.base, 2);
     });
 
