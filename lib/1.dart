@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:path/path.dart' as path;
-import 'package:path_provider/path_provider.dart';
 
 void main() {
   runApp(MyApp());
@@ -25,23 +24,18 @@ class _MainScreenState extends State<MainScreen> {
   final TextEditingController _fioController = TextEditingController();
   final TextEditingController _textController = TextEditingController();
   final List<String> _strings = ['Строка 1'];
-  final List<TextEditingController> _checkControllers = [
-    TextEditingController()
-  ];
+  final List<TextEditingController> _checkControllers = [TextEditingController()];
   final List<String> _results = [''];
 
   void _checkInput(int index) {
     setState(() {
-      _results[index] = _checkControllers[index].text == _strings[index]
-          ? 'Правильно'
-          : 'Неправильно';
+      _results[index] = _checkControllers[index].text == _strings[index] ? 'Правильно' : 'Неправильно';
       if (index == _strings.length - 1) {
         _strings.add('Строка ${_strings.length + 1}');
         _checkControllers.add(TextEditingController());
         _results.add('');
       }
     });
-    _saveResultToFile(index);
   }
 
   Future<void> _saveResultToFile(int index) async {
@@ -57,23 +51,26 @@ class _MainScreenState extends State<MainScreen> {
       // Запись строки результата в файл
       await file.writeAsString(resultString, mode: FileMode.append);
 
+      // Показать всплывающее сообщение о сохранении файла
+      _showFileSavedDialog(file.path);
+
       print('Файл сохранен по пути: ${file.path}');
     } catch (e) {
       print('Ошибка сохранения файла: $e');
+      // Показать всплывающее сообщение об ошибке сохранения файла
+      _showFileErrorDialog(e.toString());
     }
   }
 
   Future<Directory> getApplicationDocumentsDirectory1() async {
-    // Определяем путь к домашней директории в зависимости от платформы
     Directory directory;
+
     if (Platform.isIOS || Platform.isMacOS) {
-      directory = Directory('/Users/${Platform.environment['USER']}/Documents');
+      directory = Directory(path.join(Platform.environment['HOME']!, 'Documents'));
     } else if (Platform.isAndroid) {
       directory = Directory('/storage/emulated/0/Documents');
     } else if (Platform.isWindows) {
-      directory = await getApplicationDocumentsDirectory();
-      String desktopPath = path.join(directory.parent.path, 'Desktop');
-      directory = Directory(desktopPath);
+      directory = Directory(path.join(Platform.environment['USERPROFILE']!, 'Documents'));
     } else {
       throw UnsupportedError('Платформа не поддерживается');
     }
@@ -84,6 +81,71 @@ class _MainScreenState extends State<MainScreen> {
     }
 
     return directory;
+  }
+
+  void _showFileSavedDialog(String filePath) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Файл сохранен'),
+          content: Text('Файл сохранен по пути:\n$filePath'),
+          actions: <Widget>[
+            TextButton(
+              child: Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _showFileErrorDialog(String error) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Ошибка сохранения файла'),
+          content: Text('Произошла ошибка при сохранении файла:\n$error'),
+          actions: <Widget>[
+            TextButton(
+              child: Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> _saveResultsToFile() async {
+    try {
+      // Получение пути к директории документов
+      final directory = await getApplicationDocumentsDirectory1();
+      final file = File(path.join(directory.path, 'results.txt'));
+
+      // Запись всех строк результатов в файл
+      String resultString = '';
+      for (int i = 0; i < _results.length; i++) {
+        resultString += 'Строка ${i + 1}: ${_checkControllers[i].text} - ${_results[i]}\n';
+      }
+
+      await file.writeAsString(resultString);
+
+      // Показать всплывающее сообщение о сохранении файла
+      _showFileSavedDialog(file.path);
+
+      print('Файл сохранен по пути: ${file.path}');
+    } catch (e) {
+      print('Ошибка сохранения файла: $e');
+      // Показать всплывающее сообщение об ошибке сохранения файла
+      _showFileErrorDialog(e.toString());
+    }
   }
 
   @override
@@ -102,13 +164,17 @@ class _MainScreenState extends State<MainScreen> {
                 controller: _fioController,
                 decoration: InputDecoration(labelText: 'ФИО'),
               ),
+              SizedBox(height: 20), // Больший отступ между полями ввода
               TextField(
                 controller: _textController,
                 decoration: InputDecoration(labelText: 'Текстовое поле'),
               ),
-              ElevatedButton(
-                onPressed: () {},
-                child: Text('Начать'),
+              SizedBox(height: 40), // Больший отступ перед кнопкой "Начать"
+              Center(
+                child: ElevatedButton(
+                  onPressed: () {},
+                  child: Text('Начать'),
+                ),
               ),
               SizedBox(height: 20),
               Table(
@@ -151,6 +217,27 @@ class _MainScreenState extends State<MainScreen> {
                   controller: _checkControllers[index],
                   result: _results[index],
                   onCheck: () => _checkInput(index),
+                ),
+              ),
+              SizedBox(height: 20),
+              Center(
+                child: Column(
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        // Перейти на следующий уровень
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('Переход на следующий уровень')),
+                        );
+                      },
+                      child: Text('Перейти на следующий уровень'),
+                    ),
+                    SizedBox(height: 20), // Отступ между кнопками
+                    ElevatedButton(
+                      onPressed: _saveResultsToFile,
+                      child: Text('Записать результаты в файл'),
+                    ),
+                  ],
                 ),
               ),
             ],
