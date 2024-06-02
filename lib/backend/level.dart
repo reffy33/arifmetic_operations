@@ -32,8 +32,9 @@ class Level {
 
     problems.forEach((problem) {
       sb.writeln(problem.toStringFull());
-      sb.writeln();
     });
+
+    sb.writeln();
     
     return sb.toString();
   }

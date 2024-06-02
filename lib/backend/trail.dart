@@ -18,13 +18,13 @@ class Trial {
 
   factory Trial.createFirstLevel() {
     var random = Random();
-    var numbersCount = 2 + random.nextInt(13);
-    var levelCount = 1 + random.nextInt(9);
+    var numbersCount = 2 + random.nextInt(14);
+    var levelCount = 1 + random.nextInt(10);
 
     List<Number> initialNumbers = [];
     for (int i = 0; i < numbersCount; i++) {
-      int randomBase = 1 + random.nextInt(10);
-      int randomNumber = 1 + random.nextInt(1000);
+      int randomBase = 1 + random.nextInt(11);
+      int randomNumber = 1 + random.nextInt(1001);
 
       var num = Number(randomNumber.toString(), 10).convert(randomBase);
       initialNumbers.add(num);
@@ -41,7 +41,12 @@ class Trial {
 
   Level addLevel() {
     var random = Random();
-    var numbersCount = 1 + random.nextInt(initialNumbers.length - 2);
+    int numbersCount;
+    if (initialNumbers.length == 2) {
+      numbersCount = 2;
+    } else {
+      numbersCount = 2 + random.nextInt(initialNumbers.length - 2);
+    }
     List<Number> newNumbers = [];
 
     for (int i = 0; i < numbersCount; i++) {
@@ -58,10 +63,12 @@ class Trial {
   @override
   String toString() {
     StringBuffer sb = StringBuffer();
-    levels.forEach((level) {
-      sb.writeln(level.toString());
+
+    for (int i = 0; i < levels.length; i++) {
+      sb.writeln('Уровень $i');
+      sb.writeln(levels[i].toString());
       sb.writeln();
-    });
+    }
 
     return sb.toString();
   }

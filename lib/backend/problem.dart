@@ -7,7 +7,7 @@ class Problem {
   final String operation;
   final int targetBase;
   late String correctAnswer;
-  late String userAnswer;
+  String? userAnswer;
 
   Problem(this.num1, this.num2, this.operation, this.targetBase) {
     correctAnswer = _getAnswer().value;
@@ -26,7 +26,7 @@ class Problem {
     }
 
     String operation = operations[random.nextInt(operations.length)];
-    int targetBase = random.nextInt(8) + 2;
+    int targetBase = 2 + random.nextInt(10);
     return Problem(num1, num2, operation, targetBase);
   }
 
@@ -68,8 +68,10 @@ class Problem {
     sb.writeln("$num1String $operation $num2String = ");
     sb.writeln("Основание в котором нужно дать ответ: $targetBase");
     sb.writeln("Правильный ответ: $correctAnswer");
-    sb.writeln("Ваш ответ: $userAnswer");
-    sb.writeln(rightString);
+    // if (!(userAnswer == null)) {
+    //   sb.writeln("Ваш ответ: $userAnswer");
+    //   sb.writeln(rightString);
+    // }
     return sb.toString();
   }
 }
