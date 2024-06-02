@@ -50,6 +50,13 @@ class Number {
     return result;
   }
 
+  int compare(Number num2) {
+    var x = binary;
+    var y = num2.binary;
+
+    return _compareBinary(x, y);
+  }
+
   int _compareBinary(String x, String y) {
     x = x.replaceFirst(RegExp(r'^0+'), '');
     y = y.replaceFirst(RegExp(r'^0+'), '');

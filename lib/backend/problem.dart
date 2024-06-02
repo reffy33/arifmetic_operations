@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'package:arifmetic_operations/backend/number.dart';
 
 class Problem {
@@ -11,7 +12,24 @@ class Problem {
   Problem(this.num1, this.num2, this.operation, this.targetBase) {
     correctAnswer = _getAnswer().value;
   }
-  
+
+  factory Problem.random(Number num1, Number num2) {
+    List<String> operations;
+    var random = Random();
+
+    if (num1.compare(num2) < 1) {
+      operations = ['+', '*'];
+    } else if (num2.value == '0') {
+      operations = ['+', '-', '*'];
+    } else {
+      operations = ['+', '-', '*', '/'];
+    }
+
+    String operation = operations[random.nextInt(operations.length)];
+    int targetBase = random.nextInt(8) + 2;
+    return Problem(num1, num2, operation, targetBase);
+  }
+
   Number _getAnswer() {
     if (operation == '+') {
       return num1.sum(num2, targetBase);
@@ -32,20 +50,17 @@ class Problem {
   String toString() {
     var num1String = num1.toString();
     var num2String = num2.toString();
-    return "$num1String $operation $num2String = ";
-  }
-  
-  String stringWithAnswer() {
-    var num1String = num1.toString();
-    var num2String = num2.toString();
-    return "$num1String $operation $num2String = $correctAnswer";
+    StringBuffer sb = StringBuffer();
+    sb.writeln("Основание в котором нужно дать ответ: $targetBase");
+    sb.writeln("$num1String $operation $num2String = ");
+    return sb.toString();
   }
 
   String isUserRight() {
     return (userAnswer == correctAnswer) ? 'Верно' : 'Неверно';
   }
 
-  String toFile() {
+  String toStringFull() {
     StringBuffer sb = StringBuffer();
     var num1String = num1.toString();
     var num2String = num2.toString();
