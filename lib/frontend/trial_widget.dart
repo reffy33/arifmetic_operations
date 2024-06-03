@@ -1,9 +1,11 @@
+import 'dart:io';
 import 'package:arifmetic_operations/backend/level.dart';
 import 'package:arifmetic_operations/backend/problem.dart';
 import 'package:arifmetic_operations/backend/trail.dart';
 import 'package:arifmetic_operations/frontend/check_problem_tile.dart';
 import 'package:arifmetic_operations/frontend/numbers_table.dart';
 import 'package:flutter/material.dart';
+import 'package:path/path.dart' as path;
 
 class TrialWidget extends StatefulWidget {
   final String? fio;
@@ -20,6 +22,68 @@ class _TrialWidgetState extends State<TrialWidget> {
   var contorllers = [];
   Widget levelWidget = const SizedBox();
   int currentLevelIndex = 0;
+
+  Future<void> _saveResultToFile(int index) async {
+    try {
+      final directory = await getApplicationDocumentsDirectory();
+      final file = File(path.join(directory.path, 'results.txt'));
+
+      String resultString =
+          'Строка ${index + 1}';
+
+      await file.writeAsString(resultString, mode: FileMode.append);
+
+      _showFileSaveDialog(
+          'Файл сохранен', 'Файл сохранен по пути:\n${file.path}');
+
+      print('Файл сохранен по пути: ${file.path}');
+    } catch (e) {
+      print('Ошибка сохранения файла: $e');
+      _showFileSaveDialog('Ошибка сохранения файла',
+          'Ошибка сохранения файла: ${e.toString()}');
+    }
+  }
+
+  Future<Directory> getApplicationDocumentsDirectory() async {
+    Directory directory;
+
+    if (Platform.isAndroid) {
+      directory = Directory('/storage/emulated/0/Documents');
+    } else if (Platform.isWindows) {
+      directory = Directory(
+          path.join(Platform.environment['USERPROFILE']!, 'Documents'));
+    } else if (Platform.isLinux) {
+      directory = Directory(Platform.environment['HOME']!);
+    } else {
+      throw UnsupportedError('Платформа не поддерживается');
+    }
+
+    if (!await directory.exists()) {
+      await directory.create(recursive: true);
+    }
+
+    return directory;
+  }
+
+  void _showFileSaveDialog(String title, String content) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(title),
+          content: Text(content),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   void showNextLevel(Level level) {
     setState(() {
@@ -64,21 +128,20 @@ class _TrialWidgetState extends State<TrialWidget> {
       const SizedBox(height: 30),
       showLevel(trial.currentLevel),
       (currentLevelIndex < trial.levelCount - 1)
-      ?
-      ElevatedButton(
-        onPressed: () {
-          var newLevel = trial.addLevel();
-          currentLevelIndex += 1;
-          showNextLevel(newLevel);
-        },
-        child: const Text('Следующий уровень'),
-      )
-      : ElevatedButton(
-        onPressed: () {
-          print('File!');
-        },
-        child: const Text('Создать протокол прогона'),
-      )
+          ? ElevatedButton(
+              onPressed: () {
+                var newLevel = trial.addLevel();
+                currentLevelIndex += 1;
+                showNextLevel(newLevel);
+              },
+              child: const Text('Следующий уровень'),
+            )
+          : ElevatedButton(
+              onPressed: () {
+                _saveResultToFile(1);
+              },
+              child: const Text('Создать протокол прогона'),
+            )
     ]);
   }
 }
