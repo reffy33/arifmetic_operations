@@ -30,9 +30,9 @@ class Level {
   String toString() {
     StringBuffer sb = StringBuffer();
 
-    problems.forEach((problem) {
+    for (var problem in problems) {
       sb.writeln(problem.toStringFull());
-    });
+    }
 
     sb.writeln();
     

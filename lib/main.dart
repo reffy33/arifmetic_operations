@@ -55,12 +55,12 @@ class _MyHomePageState extends State<MyHomePage> {
         controller: _fioController,
         decoration: const InputDecoration(labelText: 'ФИО'),
       ),
-      const SizedBox(height: 20), // Больший отступ между полями ввода
+      const SizedBox(height: 20),
       TextField(
         controller: _trialNumberController,
         decoration: const InputDecoration(labelText: 'Номер прогона'),
       ),
-      const SizedBox(height: 40), // Больший отступ перед кнопкой "Начать"
+      const SizedBox(height: 40),
       Center(
         child: ElevatedButton(
           onPressed: () {
@@ -74,12 +74,15 @@ class _MyHomePageState extends State<MyHomePage> {
     _widgets.add(const SizedBox());
   }
 
-
   void newTrial() {
     setState(() {
       var newTrial = Trial.createFirstLevel();
       _widgets.removeLast();
-      _widgets.add(TrialWidget(trial: newTrial));
+      _widgets.add(TrialWidget(
+        trial: newTrial,
+        fio: _fioController.text,
+        trialNumber: _trialNumberController.text,
+      ));
     });
   }
 

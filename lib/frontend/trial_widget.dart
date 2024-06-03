@@ -9,7 +9,7 @@ import 'package:path/path.dart' as path;
 
 class TrialWidget extends StatefulWidget {
   final String? fio;
-  final int? trialNumber;
+  final String? trialNumber;
   final Trial trial;
   const TrialWidget(
       {super.key, this.fio, this.trialNumber, required this.trial});
@@ -26,10 +26,26 @@ class _TrialWidgetState extends State<TrialWidget> {
   Future<void> _saveResultToFile(int index) async {
     try {
       final directory = await getApplicationDocumentsDirectory();
-      final file = File(path.join(directory.path, 'results.txt'));
+      String fileName = 'result.txt';
+      if (widget.fio != "" && widget.trialNumber != ""){
+        fileName = '${widget.fio}_trial${widget.trialNumber}.txt';
+      }
+      final file = File(path.join(directory.path, fileName));
 
-      String resultString =
-          'Строка ${index + 1}';
+      StringBuffer sb = StringBuffer();
+
+      if (widget.fio != null) {
+        sb.writeln('ФИО: ${widget.fio}');
+      }
+
+      if (widget.trialNumber != null) {
+        sb.writeln('Номер прогона: ${widget.trialNumber}');
+      }
+
+      sb.writeln();
+      sb.writeln(widget.trial.toString());
+
+      String resultString = sb.toString();
 
       await file.writeAsString(resultString, mode: FileMode.append);
 
