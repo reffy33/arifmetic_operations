@@ -1,3 +1,5 @@
+import 'package:arifmetic_operations/backend/trail.dart';
+import 'package:arifmetic_operations/frontend/numbers_table.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:path/path.dart' as path;
@@ -148,6 +150,8 @@ class _MainScreenState extends State<MainScreen> {
     }
   }
 
+  final trial = Trial.createFirstLevel();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -160,6 +164,7 @@ class _MainScreenState extends State<MainScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
+              NumbersTable(numbers: trial.initialNumbers),
               TextField(
                 controller: _fioController,
                 decoration: InputDecoration(labelText: 'ФИО'),

@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:arifmetic_operations/backend/generate_int.dart';
 import 'package:arifmetic_operations/backend/level.dart';
 import 'package:arifmetic_operations/backend/number.dart';
 
@@ -17,14 +18,13 @@ class Trial {
       required this.currentLevel});
 
   factory Trial.createFirstLevel() {
-    var random = Random();
-    var numbersCount = 2 + random.nextInt(14);
-    var levelCount = 1 + random.nextInt(10);
+    var numbersCount = generateInt(2, 15);
+    var levelCount = generateInt(1, 10);
 
     List<Number> initialNumbers = [];
     for (int i = 0; i < numbersCount; i++) {
-      int randomBase = 1 + random.nextInt(11);
-      int randomNumber = 1 + random.nextInt(1001);
+      int randomBase = generateInt(2, 10);
+      int randomNumber = generateInt(1, 100);
 
       var num = Number(randomNumber.toString(), 10).convert(randomBase);
       initialNumbers.add(num);

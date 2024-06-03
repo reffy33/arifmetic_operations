@@ -1,4 +1,9 @@
+import 'dart:math';
+
+import 'package:arifmetic_operations/backend/level.dart';
+import 'package:arifmetic_operations/backend/number.dart';
 import 'package:arifmetic_operations/backend/trail.dart';
+import 'package:arifmetic_operations/frontend/trial_widget.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -8,94 +13,92 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
+        textTheme: const TextTheme(
+          displayLarge: TextStyle(
+              fontSize: 32.0, fontWeight: FontWeight.bold, color: Colors.blue),
+          displayMedium: TextStyle(fontSize: 16.0, color: Colors.black),
+        ),
       ),
-      home: const MyHomePage(title: ''),
+      home: const MyHomePage(),
+      // initialRoute: '/',
+      // routes: {
+      //   '/': (context) => const MyHomePage(),
+      //   '/trial': (context) => const TrialWidget(),
+      // },
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
+  const MyHomePage({super.key});
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  final TextEditingController _fioController = TextEditingController();
+  final TextEditingController _trialNumberController = TextEditingController();
+  final List<Widget> _widgets = [];
+  Random random = Random();
 
-  void _incrementCounter() {
+  @override
+  void initState() {
+    super.initState();
+    _widgets.add(
+        Column(crossAxisAlignment: CrossAxisAlignment.start, children: <Widget>[
+      TextField(
+        controller: _fioController,
+        decoration: const InputDecoration(labelText: 'ФИО'),
+      ),
+      const SizedBox(height: 20), // Больший отступ между полями ввода
+      TextField(
+        controller: _trialNumberController,
+        decoration: const InputDecoration(labelText: 'Номер прогона'),
+      ),
+      const SizedBox(height: 40), // Больший отступ перед кнопкой "Начать"
+      Center(
+        child: ElevatedButton(
+          onPressed: () {
+            newTrial();
+          },
+          child: const Text('Начать прогон'),
+        ),
+      ),
+      const SizedBox(height: 20),
+    ]));
+    _widgets.add(const SizedBox());
+  }
+
+
+  void newTrial() {
     setState(() {
-      _counter++;
+      var newTrial = Trial.createFirstLevel();
+      _widgets.removeLast();
+      _widgets.add(TrialWidget(trial: newTrial));
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    var trial = Trial.createFirstLevel();
-    String str = trial.toString();
-    print(str);
-    trial.addLevel();
-    print(str);
-
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
+        appBar: AppBar(
+          title: const Text('Арифметические операции'),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ),
-    );
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: _widgets),
+          ),
+        ));
   }
 }

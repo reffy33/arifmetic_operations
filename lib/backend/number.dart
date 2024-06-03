@@ -9,7 +9,7 @@ class Number {
     if (base == 2) {
       binary = value;
     } else {
-      binary = _toBase(2);
+      binary = toBase(value, base, 2);
     }
   }
 
@@ -19,35 +19,8 @@ class Number {
   }
 
   Number convert(int newBase) {
-    var newValue = _toBase(newBase);
+    var newValue = toBase(value, base, newBase);
     return Number(newValue, newBase);
-  }
-
-  String _toBase(int newBase) {
-    if (newBase == base) {
-      return value;
-    }
-
-    int decimalNumber = int.parse(value, radix: base);
-
-    if (newBase == 10) {
-      return decimalNumber.toString();
-    }
-
-    const String digits = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    String result = "";
-
-    if (decimalNumber == 0) {
-      result = '0';
-    } else {
-      while (decimalNumber > 0) {
-        int remainder = decimalNumber % newBase;
-        result = digits[remainder] + result;
-        decimalNumber ~/= newBase;
-      }
-    }
-
-    return result;
   }
 
   int compare(Number num2) {
@@ -124,7 +97,7 @@ class Number {
 
     result = subtractBinary(x, y);
 
-    if (targetBase ==  2) {
+    if (targetBase == 2) {
       return Number(result, 2);
     }
 
@@ -222,4 +195,30 @@ class Number {
 
     return Number(quotient, 2).convert(targetBase);
   }
+}
+
+String toBase(String value, int base, int newBase) {
+  // int decimalNumber = int.parse(value, radix: base);
+
+  // if (newBase == 10) {
+  //   return decimalNumber.toString();
+  // }
+
+  // const String digits = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  // String result = "";
+
+  // if (decimalNumber == 0) {
+  //   result = '0';
+  // } else {
+  //   while (decimalNumber > 0) {
+  //     int remainder = decimalNumber % newBase;
+  //     result = digits[remainder] + result;
+  //     decimalNumber ~/= newBase;
+  //   }
+  // }
+
+  // return result;
+  int decimalValue = int.parse(value, radix: base);
+  String result = decimalValue.toRadixString(newBase).toUpperCase();
+  return result;
 }

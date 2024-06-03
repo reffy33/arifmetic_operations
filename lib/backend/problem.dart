@@ -64,7 +64,7 @@ class Problem {
     StringBuffer sb = StringBuffer();
     var num1String = num1.toString();
     var num2String = num2.toString();
-    var rightString = isUserRight();
+    // var rightString = isUserRight();
     sb.writeln("$num1String $operation $num2String = ");
     sb.writeln("Основание в котором нужно дать ответ: $targetBase");
     sb.writeln("Правильный ответ: $correctAnswer");
