@@ -36,7 +36,7 @@ class _CheckRowWidgetState extends State<CheckRowWidget> {
           Padding(
             padding: const EdgeInsets.only(bottom: 8.0),
             child: Text(
-              widget.problem.toStringFull(),
+              widget.problem.toString(),
               style: const TextStyle(fontWeight: FontWeight.bold),
             ),
           ),

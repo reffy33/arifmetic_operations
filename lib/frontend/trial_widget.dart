@@ -52,9 +52,9 @@ class _TrialWidgetState extends State<TrialWidget> {
       _showFileSaveDialog(
           'Файл сохранен', 'Файл сохранен по пути:\n${file.path}');
 
-      print('Файл сохранен по пути: ${file.path}');
+      debugPrint('Файл сохранен по пути: ${file.path}');
     } catch (e) {
-      print('Ошибка сохранения файла: $e');
+      debugPrint('Ошибка сохранения файла: $e');
       _showFileSaveDialog('Ошибка сохранения файла',
           'Ошибка сохранения файла: ${e.toString()}');
     }
