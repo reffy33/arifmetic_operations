@@ -1,7 +1,4 @@
 import 'dart:math';
-
-import 'package:arifmetic_operations/backend/level.dart';
-import 'package:arifmetic_operations/backend/number.dart';
 import 'package:arifmetic_operations/backend/trail.dart';
 import 'package:arifmetic_operations/frontend/trial_widget.dart';
 import 'package:flutter/material.dart';

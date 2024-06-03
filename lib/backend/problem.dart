@@ -7,6 +7,7 @@ class Problem {
   final String operation;
   final int targetBase;
   late String correctAnswer;
+  late bool correct;
   String? userAnswer;
 
   Problem(this.num1, this.num2, this.operation, this.targetBase) {
@@ -51,27 +52,22 @@ class Problem {
     var num1String = num1.toString();
     var num2String = num2.toString();
     StringBuffer sb = StringBuffer();
-    sb.writeln("Основание в котором нужно дать ответ: $targetBase");
     sb.writeln("$num1String $operation $num2String = ");
+    sb.writeln("Основание в котором нужно дать ответ: $targetBase");
     return sb.toString();
-  }
-
-  String isUserRight() {
-    return (userAnswer == correctAnswer) ? 'Верно' : 'Неверно';
   }
 
   String toStringFull() {
     StringBuffer sb = StringBuffer();
     var num1String = num1.toString();
     var num2String = num2.toString();
-    // var rightString = isUserRight();
     sb.writeln("$num1String $operation $num2String = ");
     sb.writeln("Основание в котором нужно дать ответ: $targetBase");
     sb.writeln("Правильный ответ: $correctAnswer");
-    // if (!(userAnswer == null)) {
-    //   sb.writeln("Ваш ответ: $userAnswer");
-    //   sb.writeln(rightString);
-    // }
+    if (!(userAnswer == null)) {
+      sb.writeln("Ваш ответ: $userAnswer");
+      sb.writeln((userAnswer == correctAnswer) ? 'Верно' : 'Неверно');
+    }
     return sb.toString();
   }
 }
